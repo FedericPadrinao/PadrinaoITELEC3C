@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategory extends Migration
+class Imagecategory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateCategory extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_name');
-            $table->integer('user_id');
-            $table->string('image_path');
-            $table->timestamps();
-            $table->SoftDeletes();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->string('image_path')->after('user_id')->nullable();
         });
     }
 
@@ -30,6 +25,8 @@ class CreateCategory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('image_path');
+        });
     }
 }
